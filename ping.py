@@ -1,6 +1,5 @@
 from pygame import *
 
-
 window = display.set_mode((700, 500))
 win_width = 700
 win_height = 500
@@ -9,6 +8,10 @@ background = transform.scale(image.load('fon.jpg') , (700, 500))
 clock = time.Clock()
 
 img_ball = 'ball.jpg'
+img_platform = 'platform.jpg'
+recket_x = 200
+recket_y = 330
+
 
 class GameSprite(sprite.Sprite):
     def __init__(self, player_image, player_x, player_y,size_x, size_y,  player_speed):
@@ -30,12 +33,33 @@ class Player(GameSprite):
 for i in range(3):
     ball = (img_ball, -40, 80, 50)
 
+ball = ('ball.jpg', 160, 200, 50, 50)
+platform1 = ('platform1.jpg', 160, 200, 50, 50)
+platform2 = ('platform2.jpg', 1950, 450, 50, 50)
 
+finish = False
+speed_x = 3
+cpeed_y = 3
 game = False
 while not game:
     for i in event.get():
         if i.type == QUIT:
             game = True
+    
+    if finish != True:
+        ball.rect.x += speed_x
+        ball.rect.y += speed_y
+
+    if ball.rect.y > win_height - 50:
+        or ball.rect.y < 0:
+            speed_y *= -1
+
+    if sprite.collide_rect(platorm1, ball):
+        or sprite.collide_rect(platform2, ball):
+            speed_x *= -1
+
+    if ball.rect.x < 0:
+        finish = True
 
     window.blit(background, (0 ,0))
 
